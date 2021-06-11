@@ -1,0 +1,29 @@
+.cards{
+    display:flex;
+flex-direction: row;
+justify-content: space-around;
+align-items: center;
+}
+
+.cards div {
+    margin-right: 60px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: auto;
+    height: 400px;
+    width: 400px;
+    padding: center;
+}
+
+.card1 {
+    background-image: url(https://i2.wp.com/i.pinimg.com/originals/67/e0/6e/67e06ed0d046b7e6ca308fe21a9fc13c.jpg);
+}
+.card2 {
+    background-image: url(https://render.fineartamerica.com/images/rendered/small/print/images/artworkimages/square/2/dunn-edwards-2019-curated-colors-pale-cactus-pastel-green-de5673-solid-color-melissa-fague.jpg);
+}
+.card3 {
+    background-image: url(https://pm-site-assets-py4.s3.us-east-2.amazonaws.com/products/legacy/pastel_pink_solid_sq.jpg);
+}
+.card4 {
+    background-image: url(https://render.fineartamerica.com/images/rendered/small/print/images/artworkimages/square/2/dunn-edwards-2019-trending-colors-prom-corsage-pastel-purple-de5996-solid-color-melissa-fague.jpg);
+}

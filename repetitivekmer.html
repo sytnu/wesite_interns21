@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="nav.css">
+    <link rel="stylesheet" href="practice.css">
+</head>
+<style>
+    header {
+        background-color:#b5a1ca;
+        padding-top: 50px;
+        padding-bottom: 50px;
+        margin: -10px -10px 0px -10px;
+    }
+    .pfp {
+        margin-left: 500px;
+        height: 240px;
+        width: 30.3%;
+        }
+    .info {
+        font-size: 18px;
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+    .heading {
+        font-size: 30px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+    }
+</style>
+<body>
+    <header>
+        <img class = "pfp" src="logo4.png" alt="A picture">
+    </header>
+    
+    <div class="navbar">
+        <a class="nav-link nav-link-ltr" href="Background.html">Background</a>
+        <a class="nav-link nav-link-ltr" href="Goals.html">Goals</a>
+        <a class="active-link" href="Code.html">Code</a>
+        <a class="nav-link nav-link-ltr" href="Results.html">Results</a>
+        <a class="nav-link nav-link-ltr" href="nextsteps.html">Next Steps</a>
+        <a class="nav-link nav-link-ltr" href="aboutus.html">About Us</a>
+    </div>
+    <main>
+        <h2>Finding Most Repetitive Kmer</h2>
+        <p>
+            Finding the most repetitive kmers are important in order for one to identify certain patterns amongst the spidroin sequence. We allowed the user to input their own spidroin fasta file, and our code will output the kmer that was found the most. To do this, we used a kmer step counting method. K-mer counting involves selecting a length to use, k, creating a “window” of length k, and iterating it through the string, one character at a time.
+
+            With the largest kmer found, the program then uses it to split up the original spidroin sequence in order to clearly see the different sub-repeats found in that fasta file. 
+
+            Below shows a sample output of the program using the Aarg_MaSp2-1a.fasta file.
+        </p>
+        <pre>
+            #!/usr/bin/env/ python3
+            import random
+            import pandas as pd
+
+            from difflib import SequenceMatcher
+            import csv
+
+            #Finding most repetitive Kmer
+            path = input("Input your path: ")
+            with open (path, "r") as in_handle:
+                header = in_handle.readline()
+                sequence  = in_handle.read()
+
+            repetition = {}
+            numKmer= 6
+            #print(kmer)
+            for c,i in enumerate(sequence):
+                add = sequence[c:c+numKmer]
+                if add  not in repetition:
+                    repetition[add] = 1
+                elif add in repetition:
+                    repetition[add] += 1
+
+            Max= max(repetition.values())
+            b=[k for k, v in repetition.items() if v==Max]
+            #print(b)
+            
+            #Choosing a random choice of the most kmer found and making it a string
+            repeat  = random.choice(b)
+            p= str(repeat)
+            #print("kmer is " + p)
+
+            #finding the kmer and replacing the sequence with a space in front of the kmer and then spliting the sequence on the space
+            addSpace = sequence.replace(p, " "+p)
+            kmerSplit= addSpace.split()
+
+            #Delete the header
+            del kmerSplit[0]
+        </pre>
+    </main>
+</body>

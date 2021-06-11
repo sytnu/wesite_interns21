@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="nav.css">
+    <link rel="stylesheet" href="practice.css">
+</head>
+<style>
+    header {
+        background-color:#b5a1ca;
+        padding-top: 50px;
+        padding-bottom: 50px;
+        margin: -10px -10px 0px -10px;
+    }
+    .pfp {
+        margin-left: 500px;
+        height: 240px;
+        width: 30.3%;
+        }
+    .info {
+        font-size: 18px;
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+    .heading {
+        font-size: 30px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+    }
+</style>
+<body>
+    <header>
+        <img class = "pfp" src="logo4.png" alt="A picture">
+    </header>
+    
+    <div class="navbar">
+        <a class="nav-link nav-link-ltr" href="Background.html">Background</a>
+        <a class="nav-link nav-link-ltr" href="Goals.html">Goals</a>
+        <a class="active-link" href="Code.html">Code</a>
+        <a class="nav-link nav-link-ltr" href="Results.html">Results</a>
+        <a class="nav-link nav-link-ltr" href="nextsteps.html">Next Steps</a>
+        <a class="nav-link nav-link-ltr" href="aboutus.html">About Us</a>
+    </div>
+    <main>
+        <h2>Similarity Chart</h2>
+        <p>
+            This function is to print table of percent similarity, however we could not find a way to organize the table in an efficient manner, for this method makes a table that only takes the values less than the previous table and greater than a certain number
+        </p>
+
+        <pre>
+            #Table for Similarity
+            #Function is to print table of percent similarity, however we could not find a way to organize the table in an efficient manner,
+            for this method makes a table that only takes the values less than the previous table and greater than a certain number
+            
+            #print ("Categorization table based on content similarity:")
+            table = pd.DataFrame({"Subrepeat":kmerSplit,"Percent Similarity":diff_list})
+            
+            #Creates a table that sorts repeats that were exactly the same
+            no_diff = table.loc[table["Percent Similarity"] == 1]
+            #print(no_diff)
+            
+            #Creates a table that sorts repeats that are less than 100 percent the same
+            some_diff =table.loc[table["Percent Similarity"] < 1]
+            
+            #Creates a table that sorts those that were more than 70 percent the same
+            diff_seventy = some_diff.loc[some_diff["Percent Similarity"] >= 0.7]
+            #print(diff_seventy)
+            
+            #Creates a table that sorts those that were less than 70 percent the same
+            more_diff = some_diff.loc[some_diff["Percent Similarity"] < 0.7]
+            
+            #Creates a table that sorts those with more than 50 percent the same
+            diff_fifty = more_diff.loc[more_diff["Percent Similarity"] >= 0.5]
+            #print(diff_fifty)
+            
+            #Creates a table that sorts those with less than 50 percent the same
+            diff_forty = more_diff.loc[more_diff["Percent Similarity"] < 0.5]
+            #print(diff_forty)
+        </pre>
+    </main>
+</body>

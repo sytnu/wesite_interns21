@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="nav.css">
+    <link rel="stylesheet" href="practice.css">
+</head>
+<style>
+    header {
+        background-color:#b5a1ca;
+        padding-top: 50px;
+        padding-bottom: 50px;
+        margin: -10px -10px 0px -10px;
+    }
+    .pfp {
+        margin-left: 500px;
+        height: 240px;
+        width: 30.3%;
+        }
+    .info {
+        font-size: 18px;
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+    .heading {
+        font-size: 30px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+    }
+</style>
+<body>
+    <header>
+        <img class = "pfp" src="logo4.png" alt="A picture">
+    </header>
+    
+    <div class="navbar">
+        <a class="nav-link nav-link-ltr" href="Background.html">Background</a>
+        <a class="nav-link nav-link-ltr" href="Goals.html">Goals</a>
+        <a class="active-link" href="Code.html">Code</a>
+        <a class="nav-link nav-link-ltr" href="Results.html">Results</a>
+        <a class="nav-link nav-link-ltr" href="nextsteps.html">Next Steps</a>
+        <a class="nav-link nav-link-ltr" href="aboutus.html">About Us</a>
+    </div>
+    <h2> Making the Artificial Spidroin Sequence</h2>
+    <main>
+        <p>
+            A fasta file is a file that has a header and stores genetic information. Because we are making our own sample model, we decided to make 2 large repeats and 2 sub repeats. This would look like the model shown on the right.  We decided to make the file 300 nucleotides in the file because that is around how many there are in a real spidroin sequence. 2 large repeats will be 150 nucleotides and the sub repeats can be a random length.
+        </p>
+        <p>We made a function that creates this spidroin sequence. Using the random library, we were able to make the sub repeats with different lengths (that total to 150 when added together) and also made a random order of nucleotides for each. We then added the two sub repeats twice to get 2 large repeats. </p>
+        <pre>
+            #importing random module
+            import random
+            import io
+
+            #setting up nucleotide list for randomization
+            nucleo_list = ("A", "T", "C", "G")
+
+            def dna_sequence():
+            subset1 = ""
+            subset2 = ""
+            # adding random # of randomized nucleotides to the first subset
+            for i in range(random.randint(1, 76)):
+                subset1 += nucleo_list[random.randint(0, 3)]
+            
+            # adding an approriate # of randomized nucleotides to the second subset
+            for i in range(150 - len(subset1)):
+                subset2 += nucleo_list[random.randint(0, 3)]
+
+            #creating the full sequence
+            full_sequence = subset1 + subset2 + subset1 + subset2
+
+            #returns the full sequence.
+            return full_sequence </pre>
+            <p> To make the file, we decided to make another function that includes parameters of the filename and header. Inside the function, it creates a file with the user’s inputs on the file name and header as well as the sequence made from the previous slide.  Lastly, we called the function to create the file.</p>
+            <pre>
+            #User inputs for the file
+            filename = input("File name is: ")
+            fileheader = input("Gene Info: ")
+
+            #function to convert the fasta string into a real file
+            def fasta_maker(filename, fileheader):
+            try:
+                #opens file.io
+                with open(filename + ".fasta", "w") as spidroin_handle:
+                #the file header
+                spidroin_handle.write(">" + fileheader)
+                #the file contents
+                spidroin_handle.write(dna_sequence())
+            #bypassing any errors, noting if any happen
+            except IOError as err:
+                print("theres an error")
+            return spidroin_handle
+
+            fasta_maker(filename, fileheader)
+            
+        </pre>
+    </main>
+    
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="nav.css">
+    <link rel="stylesheet" href="practice.css">
+</head>
+<style>
+    header {
+        background-color:#b5a1ca;
+        padding-top: 50px;
+        padding-bottom: 50px;
+        margin: -10px -10px 0px -10px;
+    }
+    .pfp {
+        margin-left: 500px;
+        height: 240px;
+        width: 30.3%;
+        }
+    .info {
+        font-size: 18px;
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+    .heading {
+        font-size: 30px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+    }
+</style>
+<body>
+    <header>
+        <img class = "pfp" src="logo4.png" alt="A picture">
+    </header>
+    
+    <div class="navbar">
+        <a class="nav-link nav-link-ltr" href="Background.html">Background</a>
+        <a class="nav-link nav-link-ltr" href="Goals.html">Goals</a>
+        <a class="active-link" href="Code.html">Code</a>
+        <a class="nav-link nav-link-ltr" href="Results.html">Results</a>
+        <a class="nav-link nav-link-ltr" href="nextsteps.html">Next Steps</a>
+        <a class="nav-link nav-link-ltr" href="aboutus.html">About Us</a>
+    </div>
+    <main>
+        <h2>Finding Largest Repeat Unit Through Length</h2>
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid incidunt, laudantium similique, itaque cupiditate tempore reprehenderit excepturi aliquam, voluptates nisi quae! Distinctio ea quisquam cum inventore consequatur repudiandae et voluptatum?
+
+        </p>
+        <p>Here we used the kmer step counting approach to find the most repetitive unit through length.</p>
+        <pre>
+            #Choosing a random choice of the most kmer found and making it a string
+            repeat  = random.choice(b)
+            p= str(repeat)
+            #print("kmer is " + p)
+
+            #finding the kmer and replacing the sequence with a space in front of the kmer and then spliting the sequence on the space
+            addSpace = sequence.replace(p, " "+p)
+            kmerSplit= addSpace.split()
+
+            #Delete the header
+            del kmerSplit[0]
+            #Adding length of each sub sequence to a list
+            lengthVal=[]
+            for i in kmerSplit:
+                lenRepeat = len(i)
+                lengthVal.append(lenRepeat)
+            #print (lengthVal)
+
+            #Finding the length of the repetition based on length
+
+            newlengthVal = tuple(lengthVal)
+            onlyOne = False
+            number = 2 #Groupings of repetitions
+
+
+            #Using Kmer step counting to find most found repetition
+            numrepetition ={}
+
+            while onlyOne == False:
+                for c,i in enumerate(newlengthVal):
+                    add = newlengthVal[c:c+number]
+                    if add not in numrepetition:
+                        numrepetition[add] = 1
+                    elif add in numrepetition:
+                        numrepetition[add] += 1
+
+                Max= max(numrepetition.values())
+                finalRep=[k for k, v in numrepetition.items() if v==Max]
+                if len(finalRep) > 1:
+                    number = number + 1
+                    onlyOne = False
+                else:
+                    onlyOne = True
+
+            print(finalRep)
+        </pre>
+        <p>Here we used the length values to translate it into the actual spidroin sequences.</p>
+            <pre>
+            listfinal = [item for t in finalRep for item in t] #making finalRep tuple into a list
+
+            #Create dictionary for kmer and length
+            secondSplit = kmerSplit.copy() #Create copy b/c dictionary deletes items
+            lengthAmount ={}
+            for i in lengthVal:
+                for k in secondSplit:
+                    lengthAmount[i]=k
+                    secondSplit.remove(k)
+                    break
+            print(lengthAmount)
+
+            #Access first key in Dict
+            key_list = list(lengthAmount)
+
+            #Access Values
+            values = lengthAmount.values()
+            values_list = list(values)
+
+            #accessing and printing the large Repeat Unit in a list
+            seqLarge = []
+            indexR = 0
+            indexk = 0
+            finding = False
+
+            while finding == False:
+                if listfinal[indexR] == key_list[indexk]:
+                    seqLarge.append(values_list[indexk])
+                    indexR = indexR +1
+                    indexk = 0
+                    if len(listfinal) == len(seqLarge):
+                        finding = True
+                else:
+                    indexk = indexk + 1
+
+            print ("Largest Repeat Unit:")
+            # Function to convert list to string 
+            def listToString(s): 
+                # initialize an empty string
+                str1 = "" 
+                # traverse in the string  
+                for ele in s: 
+                    str1 += ele  
+                # return string  
+                return str1 
+            string_seq = listToString(seqLarge)
+        </pre>
+        <p>We then put our results in a fasta file so that it would not get lost.</p>
+            <pre>
+            #Making Largest Repeat in a fasta file
+            user_output_name = input("What do you want the file name of the largest repeat unit to be? ")
+            with open(user_output_name, 'w') as in_largest:
+                in_largest.write(header)
+                in_largest.write(string_seq)
+
+            #Content similarity Categorization
+            frequentString = max(kmerSplit, key = kmerSplit.count)
+
+            #frequentString = most_frequent(kmerSplit)
+            mfs_indx=kmerSplit.index(frequentString)
+
+            diff_list = []
+            for i in kmerSplit:
+                percent = SequenceMatcher (None, i, kmerSplit[mfs_indx]).ratio()
+                diff_list.append(percent)
+
+            with open('test_file_gdi.csv', mode='w') as file:
+                writer = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                writer.writerow(['Subrepeat', 'Percent Similarity'])
+                for i in range(len(kmerSplit)):
+                    writer.writerow([kmerSplit[i], diff_list[i]])
+            
+        </pre>
+    </main>
+    
+</body>
